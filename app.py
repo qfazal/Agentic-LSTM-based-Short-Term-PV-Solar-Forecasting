@@ -204,7 +204,7 @@ if uploaded_file is not None:
                             from langchain_core.output_parsers import StrOutputParser
                             
                             llm = ChatGroq(
-                                model="openai/gpt-oss-20b", 
+                                model="qwen/qwen3.6-27b", 
                                 temperature=0.2,
                                 api_key="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" # Ensure your key is pasted here
                             )
