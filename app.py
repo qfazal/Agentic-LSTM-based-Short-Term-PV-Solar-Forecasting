@@ -219,7 +219,7 @@ if uploaded_file is not None:
                                 Time-Series Window (2 Hours):
                                 {data_table}
                                 
-                                Provide a concise, 2-paragraph technical explanation of why the LSTM missed the peak and delayed the ramp prediction, explicitly referencing its lack of a spatial CNN module.""")
+                                Provide a concise, technical explanation in bullet points of why the LSTM missed the peak and delayed the ramp prediction, explicitly referencing its lack of a spatial CNN module.""")
                             ])
                             
                             chain = prompt | llm | StrOutputParser()
