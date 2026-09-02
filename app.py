@@ -203,55 +203,55 @@ if uploaded_file is not None:
                            
                             if st.button("Generate Diagnostic Report"):
     
-                              with st.spinner("Analyzing architectural limitations at high speed..."):
-                                  try:
-                                      from langchain_groq import ChatGroq
-                                      from langchain_core.prompts import ChatPromptTemplate
-                                      from langchain_core.output_parsers import StrOutputParser
-                                      
-                                      # 1. Initialize Groq LLM (Using Llama 3.3 70B for fast, technical reasoning)
-                                      llm = ChatGroq(
-                                          model="llama-3.3-70b-versatile", 
-                                          temperature=0.2,
-                                          api_key="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" # <--- Hardcoded string
-                                      )
-                                      
-                                      # 2. Construct the LangChain Prompt Template
-                                      prompt = ChatPromptTemplate.from_messages([
-                                          ("system", """
-                                          You are an AI Systems Design Engineer diagnosing time-series forecasting errors. 
-                                          Focus strictly on explaining the errors through architectural limitations: specifically, 
-                                          why a purely temporal LSTM (trained only on point-sensor data) suffers from phase lag 
-                                          and peak mismatch compared to a hybrid CNN-LSTM that utilizes All-Sky Imager spatial data.
-                                          """),
-                                          ("user", """
-                                          Diagnostic Metrics:
-                                          - Time of Maximum Error: {max_error_time}
-                                          - Peak Mismatch (Actual - Predicted): {mismatch:.2f} W/m²
-                                          - Phase Lag: {lag} minutes
+                                  with st.spinner("Analyzing architectural limitations at high speed..."):
+                                      try:
+                                          from langchain_groq import ChatGroq
+                                          from langchain_core.prompts import ChatPromptTemplate
+                                          from langchain_core.output_parsers import StrOutputParser
                                           
-                                          Time-Series Window (2 Hours):
-                                          {data_table}
+                                          # 1. Initialize Groq LLM (Using Llama 3.3 70B for fast, technical reasoning)
+                                          llm = ChatGroq(
+                                              model="llama-3.3-70b-versatile", 
+                                              temperature=0.2,
+                                              api_key="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" # <--- Hardcoded string
+                                          )
                                           
-                                          Provide a concise, 2-paragraph technical explanation of why the LSTM model missed the peak 
-                                          and delayed the ramp prediction, explicitly referencing its lack of a spatial CNN module.
-                                          """)
-                                      ])
-                                      
-                                      # 3. Build the LCEL Chain
-                                      chain = prompt | llm | StrOutputParser()
-                                      
-                                      # 4. Invoke the chain with variables mapped to the prompt
-                                      explanation = chain.invoke({
-                                          "max_error_time": target_dates[max_error_idx],
-                                          "mismatch": peak_mismatch,
-                                          "lag": time_lag_minutes,
-                                          "data_table": window_df.to_markdown(index=False)
-                                      })
-                                      
-                                      st.info(explanation)
-                                      
-                                  except Exception as e:
-                                      st.error(f"LangChain/Groq API Error: {e}")
+                                          # 2. Construct the LangChain Prompt Template
+                                          prompt = ChatPromptTemplate.from_messages([
+                                              ("system", """
+                                              You are an AI Systems Design Engineer diagnosing time-series forecasting errors. 
+                                              Focus strictly on explaining the errors through architectural limitations: specifically, 
+                                              why a purely temporal LSTM (trained only on point-sensor data) suffers from phase lag 
+                                              and peak mismatch compared to a hybrid CNN-LSTM that utilizes All-Sky Imager spatial data.
+                                              """),
+                                              ("user", """
+                                              Diagnostic Metrics:
+                                              - Time of Maximum Error: {max_error_time}
+                                              - Peak Mismatch (Actual - Predicted): {mismatch:.2f} W/m²
+                                              - Phase Lag: {lag} minutes
+                                              
+                                              Time-Series Window (2 Hours):
+                                              {data_table}
+                                              
+                                              Provide a concise, 2-paragraph technical explanation of why the LSTM model missed the peak 
+                                              and delayed the ramp prediction, explicitly referencing its lack of a spatial CNN module.
+                                              """)
+                                          ])
+                                          
+                                          # 3. Build the LCEL Chain
+                                          chain = prompt | llm | StrOutputParser()
+                                          
+                                          # 4. Invoke the chain with variables mapped to the prompt
+                                          explanation = chain.invoke({
+                                              "max_error_time": target_dates[max_error_idx],
+                                              "mismatch": peak_mismatch,
+                                              "lag": time_lag_minutes,
+                                              "data_table": window_df.to_markdown(index=False)
+                                          })
+                                          
+                                          st.info(explanation)
+                                          
+                                      except Exception as e:
+                                          st.error(f"LangChain/Groq API Error: {e}")
     else:
         st.warning(f"⚠️ The uploaded file only contains {len(live_data)} rows. At least 75 are required.")
