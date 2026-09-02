@@ -7,3 +7,4 @@ matplotlib
 joblib
 langchain-core 
 langchain-groq
+tabulate
