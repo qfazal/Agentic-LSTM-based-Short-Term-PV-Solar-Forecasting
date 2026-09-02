@@ -82,7 +82,7 @@ if uploaded_file is not None:
         test_data = live_data[test_mask]
 
         if len(test_data) == 0:
-            st.error("⚠️ No test-set days (days 27–31) found in the uploaded file.")
+            st.error("No test-set days (days 27–31) found in the uploaded file.")
         else:
     
             # Extract unique test dates for the dropdown
@@ -103,7 +103,7 @@ if uploaded_file is not None:
                     day_data = live_data[day_mask].copy()
             
                     if len(day_data) < 75:
-                        st.error(f"⚠️ {selected_date} only contains {len(day_data)} valid rows.")
+                        st.error(f"{selected_date} only contains {len(day_data)} valid rows.")
                     else:
                         time_of_day = day_data.index.hour + (day_data.index.minute / 60.0)
                         day_data['Time_Sin'] = np.sin(time_of_day * (2. * np.pi / 24))
@@ -174,7 +174,7 @@ if uploaded_file is not None:
             
                 # --- 3. The Diagnostic Report Button ---
                 st.divider()
-                st.subheader("🤖 AI Architectural Diagnostic")
+                st.subheader("AI Architectural Diagnostic")
                 
                 if st.button("Generate Diagnostic Report"):
                     with st.spinner("Analyzing architectural limitations..."):
@@ -204,7 +204,7 @@ if uploaded_file is not None:
                             from langchain_core.output_parsers import StrOutputParser
                             
                             llm = ChatGroq(
-                                model="llama-3.1-8b-instant", 
+                                model="gemma2-9b-it", 
                                 temperature=0.2,
                                 api_key="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" # Ensure your key is pasted here
                             )
@@ -234,5 +234,5 @@ if uploaded_file is not None:
                         except Exception as e:
                             st.error(f"Error: {e}")
     else:
-        st.warning(f"⚠️ The uploaded file only contains {len(live_data)} rows. At least 75 are required.")
+        st.warning(f"The uploaded file only contains {len(live_data)} rows. At least 75 are required.")
     
