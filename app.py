@@ -205,7 +205,7 @@ if st.session_state.get('forecast_exists') and st.session_state.get('current_dat
                 from langchain_core.output_parsers import StrOutputParser
                 
                 llm = ChatGroq(
-                    model="llama-3.3-70b-versatile", 
+                    model="llama-3.1-70b-versatile", 
                     temperature=0.2,
                     api_key="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" # Ensure your key is pasted here
                 )
