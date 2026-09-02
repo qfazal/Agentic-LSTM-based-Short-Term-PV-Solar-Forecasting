@@ -94,6 +94,9 @@ if uploaded_file is not None:
 
             # --- 6. Execution & Inference ---
             # --- 1. Button to Generate & Save Forecast to Memory ---
+    else:
+        st.warning(f"⚠️ The uploaded file only contains {len(live_data)} rows. At least 75 are required.")
+
 if st.button(f"Generate Forecast for {selected_date}"):
     with st.spinner(f"Processing physical states for {selected_date}..."):
         # Isolate the exact day chosen by the user
@@ -231,5 +234,4 @@ if st.session_state.get('forecast_exists') and st.session_state.get('current_dat
                 st.info(explanation)
             except Exception as e:
                 st.error(f"Error: {e}")
-    else:
-        st.warning(f"⚠️ The uploaded file only contains {len(live_data)} rows. At least 75 are required.")
+    
